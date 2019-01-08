@@ -1,4 +1,5 @@
 import React from 'react';
+import './Form.css';
 const {countries} = require('./countries.js')
 
 class Form extends React.Component {
@@ -7,11 +8,13 @@ class Form extends React.Component {
     this.state = {
       name: '',
       birthdate: '',
-      country_of_origin: '',
-      dietary_preference: '',
-      essay: ''
+      country: 'Afghanistan',
+      diet: 'omnivore',
+      essay: '',
+      formCompleted: false,
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 // debugger
   }
 
@@ -20,6 +23,13 @@ class Form extends React.Component {
       [event.target.name]: event.target.value
     })
     // debugger
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+    this.setState({
+      formCompleted: true
+    })
   }
 
   render() {
@@ -43,25 +53,33 @@ class Form extends React.Component {
             <br/>
             <br/>
             <label htmlFor='country'>What is your country of origin?</label>
-            <select name='countries' value={this.state.countries}>
 
+            <select name='country' value={this.state.country}>
               {
-                // countries.forEach(name => (
-                //   console.log(country);
-                // ))}
-
-
                 countries.map(country => {
-                  console.log(country);
-                return(<option value={country.name}>{country.name}</option>)
-
-            })
+                  // console.log(country);
+                  return(
+                    <option value={country.name}>{country.name}</option>
+                  )
+                })
               }
-
             </select>
             <br/>
             <br/>
-          </form>
+            <label htmlFor='diet'>What is your dietary preference?</label>
+            <select name='diet' value={this.state.diet}>
+              <option value="omnivore">omnivore</option>
+              <option value="vegetarian">vegetarian</option>
+              <option value="vegan">vegan</option>
+            </select>
+            <br/>
+            <br/>
+            <label htmlFor='essay'>Why do you want to be a Mars explorer?</label>
+            <textarea rows='100' cols='20' wrap='soft' overflow='scroll' name='essay' value={this.state.essay} id='essay'></textarea>
+            <br/>
+            <br/>
+            <button type='submit' onClick={this.handleSubmit}>Submit</button>
+        </form>
         </div>
       </React.Fragment>
     )
