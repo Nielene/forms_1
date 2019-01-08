@@ -2,6 +2,11 @@ import React from 'react';
 import './Form.css';
 const {countries} = require('./countries.js')
 
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import ShowResults from './ShowResults.js'
+// ReactDOM.render(<ShowResults />, document.getElementById('root'));
+
 class Form extends React.Component {
   constructor() {
     super();
@@ -12,9 +17,12 @@ class Form extends React.Component {
       diet: 'omnivore',
       essay: '',
       formCompleted: false,
+      formConfirmed: false,
+      //make a ternery: (only one js file.)
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
 // debugger
   }
 
@@ -32,9 +40,17 @@ class Form extends React.Component {
     })
   }
 
+  handleConfirm(event) {
+    event.preventDefault()
+    this.setState({
+      formConfirmed: true
+    })
+  }
+
   render() {
     console.log(this.state);
-    // console.log(countries);
+    console.log(countries);
+    // debugger
     return(
       <React.Fragment>
         <h1>Mission to Mars Registration Form</h1>
@@ -79,7 +95,28 @@ class Form extends React.Component {
             <br/>
             <br/>
             <button type='submit' onClick={this.handleSubmit}>Submit</button>
-        </form>
+            <br/>
+            {this.state.formCompleted ? <div>
+                <ul id='userResponses'>
+                <li>Name: {this.state.name}</li>
+                <li>Date of Birth: {this.state.birthdate}</li>
+                <li>Country of Origin: {this.state.country}</li>
+                <li>Dietary preference: {this.state.diet}</li>
+                <li>Why you want to explore Mars: {this.state.essay}</li>
+              </ul>
+
+              <p id='userSure' >Are you sure the information is correct?</p>
+              <button type='submit' onClick={this.handleConfirm}>Confirm</button>
+              <br/>
+
+            </div> : ""}
+
+
+
+
+
+          </form>
+
         </div>
       </React.Fragment>
     )
