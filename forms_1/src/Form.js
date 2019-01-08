@@ -1,5 +1,5 @@
 import React from 'react';
-const countries = require('./countries.js')
+const {countries} = require('./countries.js')
 
 class Form extends React.Component {
   constructor() {
@@ -46,10 +46,16 @@ class Form extends React.Component {
             <select name='countries' value={this.state.countries}>
 
               {
-                // console.log(countries)
-                countries.forEach(country => {
-                  console.log(country.name);
-                })
+                // countries.forEach(name => (
+                //   console.log(country);
+                // ))}
+
+
+                countries.map(country => {
+                  console.log(country);
+                return(<option value={country.name}>{country.name}</option>)
+
+            })
               }
 
             </select>
