@@ -19,7 +19,7 @@ class Form extends React.Component {
       formSubmitted: false,
       formConfirmed: false,
       formEditted: false,
-      formReSubmitted: false,
+
       //make a ternery: (only one js file.)
     }
     this.handleChange = this.handleChange.bind(this);
@@ -54,23 +54,51 @@ class Form extends React.Component {
   handleEdit(event) {
     event.preventDefault()
     this.setState({
-      formEditted: true
+      formEditted: true,
+      formSubmitted: false
     })
   }
 
   render() {
-    console.log(this.state);
-    console.log(countries);
+    console.log('THIS STATE',this.state);
+    // console.log(countries);
     // debugger
-    const {formSubmitted, formConfirmed, formEditted, formReSubmitted} = this.state;
+    const {formSubmitted, formConfirmed, formEditted} = this.state;
 
-    if(!formSubmitted || formEditted){
+    if (formSubmitted && !formConfirmed){
+      console.log('submitted');
+      return (
+        <React.Fragment>
+          <div>
+            <h1>Review of your responses</h1>
+            <ul id='userResponses'>
+              <li>Name: {this.state.name}</li>
+              <li>Date of Birth: {this.state.birthdate}</li>
+              <li>Country of Origin: {this.state.country}</li>
+              <li>Dietary preference: {this.state.diet}</li>
+              <li>Why you want to explore Mars: {this.state.essay}</li>
+            </ul>
+
+            <p id='userSure' >Are you sure the information is correct?</p>
+            <input type='submit' onSubmit={this.handleConfirm} value='Confirm'/>
+            <input type='button' onClick={this.handleEdit} value='Edit'/>
+            <br/>
+          </div>
+        </React.Fragment>
+      )
+    } else if (formConfirmed && formSubmitted){
+      return (
+        <React.Fragment>
+            <p>Thank you, {this.state.name} for your application!</p>
+        </React.Fragment>
+      )
+    } else {
       console.log('edited', 'or NOT YET submitted');
       return(
         <React.Fragment>
           <h1>Mission to Mars Registration Form</h1>
           <div>
-            <form onChange={this.handleChange}>
+            <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
               <br />
               <br />
               <label>What is your name?</label>
@@ -109,40 +137,10 @@ class Form extends React.Component {
               <textarea rows='100' cols='20' wrap='soft' overflow='scroll' name='essay' value={this.state.essay} id='essay'></textarea>
               <br/>
               <br/>
-              <button type='submit' onClick={this.handleSubmit}>Submit</button>
+              <input type='submit'value="Submit"/>
 
             </form>
           </div>
-        </React.Fragment>
-      )
-    } else if (formSubmitted){
-      console.log('submitted');
-      return (
-        <React.Fragment>
-          <div>
-            <h1>Review of your responses</h1>
-            <ul id='userResponses'>
-              <li>Name: {this.state.name}</li>
-              <li>Date of Birth: {this.state.birthdate}</li>
-              <li>Country of Origin: {this.state.country}</li>
-              <li>Dietary preference: {this.state.diet}</li>
-              <li>Why you want to explore Mars: {this.state.essay}</li>
-            </ul>
-
-            <p id='userSure' >Are you sure the information is correct?</p>
-            <button type='submit' onClick={this.handleConfirm}>Confirm</button>
-            <button type='submit' onClick={this.handleEdit}>Edit</button>
-            <br/>
-          </div>
-
-
-        </React.Fragment>
-      )
-
-    } else if (formConfirmed){
-      return (
-        <React.Fragment>
-            <p>Thank you for your application!</p>
         </React.Fragment>
       )
     }
