@@ -45,7 +45,7 @@ class Form extends React.Component {
   }
 
   handleConfirm(event) {
-    event.preventDefault()
+
     this.setState({
       formConfirmed: true
     })
@@ -69,7 +69,7 @@ class Form extends React.Component {
       console.log('submitted');
       return (
         <React.Fragment>
-          <div>
+          <form>
             <h1>Review of your responses</h1>
             <ul id='userResponses'>
               <li>Name: {this.state.name}</li>
@@ -80,10 +80,10 @@ class Form extends React.Component {
             </ul>
 
             <p id='userSure' >Are you sure the information is correct?</p>
-            <input type='submit' onSubmit={this.handleConfirm} value='Confirm'/>
+            <input type='button' onClick={this.handleConfirm} value='Confirm'/>
             <input type='button' onClick={this.handleEdit} value='Edit'/>
             <br/>
-          </div>
+          </form>
         </React.Fragment>
       )
     } else if (formConfirmed && formSubmitted){
