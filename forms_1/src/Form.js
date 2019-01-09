@@ -16,13 +16,17 @@ class Form extends React.Component {
       country: 'Afghanistan',
       diet: 'omnivore',
       essay: '',
-      formCompleted: false,
+      formSubmitted: false,
       formConfirmed: false,
+      formEditted: false,
+      formReSubmitted: false,
       //make a ternery: (only one js file.)
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+
 // debugger
   }
 
@@ -36,7 +40,7 @@ class Form extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     this.setState({
-      formCompleted: true
+      formSubmitted: true
     })
   }
 
@@ -47,12 +51,21 @@ class Form extends React.Component {
     })
   }
 
+  handleEdit(event) {
+    event.preventDefault()
+    this.setState({
+      formEditted: true
+    })
+  }
+
   render() {
     console.log(this.state);
     console.log(countries);
     // debugger
+    const {formSubmitted, formConfirmed, formEditted, formReSubmitted} = this.state;
 
-    if(!this.state.formConfirmed){
+    if(!formSubmitted || formEditted){
+      console.log('edited', 'or NOT YET submitted');
       return(
         <React.Fragment>
           <h1>Mission to Mars Registration Form</h1>
@@ -77,7 +90,7 @@ class Form extends React.Component {
                   countries.map(country => {
                     // console.log(country);
                     return(
-                      <option value={country.name}>{country.name}</option>
+                      <option key={country.code} value={country.name}>{country.name}</option>
                     )
                   })
                 }
@@ -97,35 +110,42 @@ class Form extends React.Component {
               <br/>
               <br/>
               <button type='submit' onClick={this.handleSubmit}>Submit</button>
-              <br/>
-              {this.state.formCompleted ? <div>
-                  <ul id='userResponses'>
-                  <li>Name: {this.state.name}</li>
-                  <li>Date of Birth: {this.state.birthdate}</li>
-                  <li>Country of Origin: {this.state.country}</li>
-                  <li>Dietary preference: {this.state.diet}</li>
-                  <li>Why you want to explore Mars: {this.state.essay}</li>
-                </ul>
-
-                <p id='userSure' >Are you sure the information is correct?</p>
-                <button type='submit' onClick={this.handleConfirm}>Confirm</button>
-                <br/>
-
-              </div>  : ""}
 
             </form>
-
           </div>
         </React.Fragment>
       )
-    } else {
+    } else if (formSubmitted){
+      console.log('submitted');
+      return (
+        <React.Fragment>
+          <div>
+            <h1>Review of your responses</h1>
+            <ul id='userResponses'>
+              <li>Name: {this.state.name}</li>
+              <li>Date of Birth: {this.state.birthdate}</li>
+              <li>Country of Origin: {this.state.country}</li>
+              <li>Dietary preference: {this.state.diet}</li>
+              <li>Why you want to explore Mars: {this.state.essay}</li>
+            </ul>
+
+            <p id='userSure' >Are you sure the information is correct?</p>
+            <button type='submit' onClick={this.handleConfirm}>Confirm</button>
+            <button type='submit' onClick={this.handleEdit}>Edit</button>
+            <br/>
+          </div>
+
+
+        </React.Fragment>
+      )
+
+    } else if (formConfirmed){
       return (
         <React.Fragment>
             <p>Thank you for your application!</p>
         </React.Fragment>
       )
     }
-
   }
 }
 
