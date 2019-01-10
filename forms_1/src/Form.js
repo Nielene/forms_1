@@ -32,6 +32,14 @@ class Form extends React.Component {
         grandparents: false,
         grandparentsAmount: 0,
       },
+      education: {
+        high_school: false,
+        associates: false,
+        bachelors: false,
+        masters: false,
+        phd: false,
+        other: '',
+      },
       essay: '',
       formSubmitted: false,
       formConfirmed: false,
@@ -53,6 +61,7 @@ class Form extends React.Component {
   }
 
   handleChange(event) {
+    event.stopPropagation()
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -100,43 +109,51 @@ class Form extends React.Component {
     })
   }
 
-  handleFollowUpQuestion() {
+  handleFollowUpQuestion(event) {
 
-      if (this.state.living_family.siblings) {
-        return(
+    if (this.state.living_family.siblings) {
+      return(
 
-          <React.Fragment>
-            <select name='siblingsAmount' value={this.state.siblingsAmount}>
-              <option disabled> Siblings </option>
-              {this.CreateRange(0,11)}
-              <option> more </option>
-            </select>
-          </React.Fragment>
-        )
-      } else if(this.state.living_family.parents){
-        return(
+        <React.Fragment>
+          <select name='siblingsAmount' value={this.state.siblingsAmount}>
+            <option disabled> Siblings </option>
+            {this.CreateRange(0,11)}
+            <option> more </option>
+          </select>
+        </React.Fragment>
+      )
+    } else if(this.state.living_family.parents){
+      return(
 
-          <React.Fragment>
-            <select name='parentsAmount' value={this.state.parentsAmount}>
-              <option disabled> Parents </option>
-              {this.CreateRange(0,3)}
-              <option> more </option>
-            </select>
-          </React.Fragment>
-        )
-      } else if (this.state.living_family.grandparents) {
-        return(
-          <React.Fragment>
-            <select name='grandparentsAmount' value={this.state.grandparentsAmount}>
-              <option disabled> Grandparents </option>
-              {this.CreateRange(0,5)}
-              <option> more </option>
-            </select>
-          </React.Fragment>
-        )
-      } else {
-          return null
-      }
+        <React.Fragment>
+          <select name='parentsAmount' value={this.state.parentsAmount}>
+            <option disabled> Parents </option>
+            {this.CreateRange(0,3)}
+            <option> more </option>
+          </select>
+        </React.Fragment>
+      )
+    } else if (this.state.living_family.grandparents) {
+      return(
+        <React.Fragment>
+          <select name='grandparentsAmount' value={this.state.grandparentsAmount}>
+            <option disabled> Grandparents </option>
+            {this.CreateRange(0,5)}
+            <option> more </option>
+          </select>
+        </React.Fragment>
+      )
+    } else {
+        return null
+    }
+
+    event.stopPropagation()
+    let selectedItem = this.state[event.target.name]
+    selectedItem[event.target.id] = event.target.checked
+
+    this.setState({
+      [event.target.name]: selectedItem
+    })
   }
 
   CreateRange(min, max){
@@ -299,7 +316,8 @@ class Form extends React.Component {
 <br/>
               <label htmlFor='checkbox'>Do you have any living (check all that apply):</label>
 
-              <input type='checkbox'
+              <input
+                type='checkbox'
                 name='living_family'
                 checked={this.state.living_family.siblings}
                 onChange={this.handleCheckboxChange}
@@ -309,7 +327,8 @@ class Form extends React.Component {
 
               {this.handleFollowUpQuestion()}
 
-              <input type='checkbox'
+              <input
+                type='checkbox'
                 name='living_family'
                 checked={this.state.living_family.parents}
                 onChange={this.handleCheckboxChange}
@@ -320,7 +339,8 @@ class Form extends React.Component {
             {this.handleFollowUpQuestion()}
 
 
-              <input type='checkbox'
+              <input
+                type='checkbox'
                 name='living_family'
                 checked={this.state.living_family.grandparents}
                 onChange={this.handleCheckboxChange}
@@ -329,6 +349,69 @@ class Form extends React.Component {
               <label htmlFor='checkbox'> Grandparents </label>
 
             {this.handleFollowUpQuestion()}
+<br/>
+<br/>
+              <label htmlFor='checkbox'>Check all educational credentials you have received:</label>
+
+              <input
+                type='checkbox'
+                name='education'
+                checked={this.state.education.high_school}
+                onChange={this.handleCheckboxChange}
+                id='high_school'>
+              </input>
+              <label htmlFor='checkbox'> High school diploma or GED equivalent </label>
+
+              <input
+                type='checkbox'
+                name='education'
+                checked={this.state.education.associates}
+                onChange={this.handleCheckboxChange}
+                id='associates'>
+              </input>
+              <label htmlFor='checkbox'> Associate's Degree </label>
+
+              <input
+                type='checkbox'
+                name='education'
+                checked={this.state.education.bachelors}
+                onChange={this.handleCheckboxChange}
+                id='bachelors'>
+              </input>
+              <label htmlFor='checkbox'> Bachelor's Degree </label>
+
+              <input
+                type='checkbox'
+                name='education'
+                checked={this.state.education.masters}
+                onChange={this.handleCheckboxChange}
+                id='masters'>
+              </input>
+              <label htmlFor='checkbox'> Master's Degree </label>
+
+              <input
+                type='checkbox'
+                name='education'
+                checked={this.state.education.phd}
+                onChange={this.handleCheckboxChange}
+                id='phd'>
+              </input>
+              <label htmlFor='checkbox'> PhD </label>
+
+              <label htmlFor='checkbox'> Other </label>
+              <input
+                type='text'
+                name='education'
+                checked={this.state.education.other}
+                onChange={this.handleChange}
+                id='other'
+                value={this.state.name}
+                placeholder='Other education'
+                >
+              </input>
+
+
+
 <br/>
 <br/>
               <label htmlFor='essay'>Why do you want to be a Mars explorer?</label>
