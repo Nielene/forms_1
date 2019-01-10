@@ -5,6 +5,11 @@
   word-break: break-all;
 }
 
-/* #userResponses {
-  display:none;
-} */
+body {
+  background-clip: border-box;
+  background-image: url('https://stemjobs.com/wp-content/uploads/2016/05/ThinkstockPhotos-472339618.jpg');
+}
+
+#DivEnclosingForm {
+  background-color: white;
+}

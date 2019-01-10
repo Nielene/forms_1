@@ -1,3 +1,15 @@
+//=================
+create-react-app new_year
+
+cd new_year/
+npm start
+
+- website: localhost:3000
+  atom .
+//===============
+https://github.com/joinpursuit/forms_1/pull/1
+//===============
+
 # Mars Mission Registration Form - Part 1
 
 You are creating a form for people to register to be astronauts on a mission to Mars. You'll have to collect a lot of information, as a mission to Mars can be grueling, uncomfortable, and long.

@@ -147,13 +147,13 @@ class Form extends React.Component {
         return null
     }
 
-    event.stopPropagation()
-    let selectedItem = this.state[event.target.name]
-    selectedItem[event.target.id] = event.target.checked
-
-    this.setState({
-      [event.target.name]: selectedItem
-    })
+    // event.stopPropagation()
+    // let selectedItem = this.state[event.target.name]
+    // selectedItem[event.target.id] = event.target.checked
+    //
+    // this.setState({
+    //   [event.target.name]: selectedItem
+    // })
   }
 
   CreateRange(min, max){
@@ -179,7 +179,7 @@ class Form extends React.Component {
     console.log('THIS STATE',this.state);
     // console.log(countries);
     // debugger
-    const {formSubmitted, formConfirmed, formEditted} = this.state;
+    const {formSubmitted, formConfirmed} = this.state;
 
     if (formSubmitted && !formConfirmed){
       console.log('submitted');
@@ -213,7 +213,7 @@ class Form extends React.Component {
       return(
         <React.Fragment>
           <h1>Mission to Mars Registration Form</h1>
-          <div>
+          <div id='DivEnclosingForm'>
             <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
 
               <label>What is your name?</label>
