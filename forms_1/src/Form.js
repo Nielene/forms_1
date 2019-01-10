@@ -166,7 +166,13 @@ class Form extends React.Component {
     })
   }
 
+  handleSelect() {
 
+  }
+
+  handleTextChange(){
+    
+  }
 
 
   render() {
