@@ -15,10 +15,28 @@ class Form extends React.Component {
       birthdate: '',
       country: 'Afghanistan',
       diet: 'omnivore',
+      radio_underwater: "",
+      marital_status: '',
+      stress_reaction:'',
+      claustrophobic:'',
+      checkbox_disease: {
+        cancer: false,
+        heart_disease: false,
+        diabetes: false
+      },
+      living_family: {
+        siblings: false,
+        siblingsAmount: 0,
+        parents: false,
+        parentsAmount: 0,
+        grandparents: false,
+        grandparentsAmount: 0,
+      },
       essay: '',
       formSubmitted: false,
       formConfirmed: false,
       formEditted: false,
+
 
       //make a ternery: (only one js file.)
     }
@@ -26,6 +44,10 @@ class Form extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleRadioChange = this.handleRadioChange.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleFollowUpQuestion = this.handleFollowUpQuestion.bind(this);
+    this.CreateRange = this.CreateRange.bind(this);
 
 // debugger
   }
@@ -58,6 +80,77 @@ class Form extends React.Component {
       formSubmitted: false
     })
   }
+
+  handleRadioChange(event) {
+    event.preventDefault()
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleCheckboxChange(event) {
+    event.stopPropagation()
+    let checkedItems = this.state[event.target.name]
+    checkedItems[event.target.id] = event.target.checked
+    // console.log(event)
+    // debugger
+    // console.log('=>', event.target.name , '-->' ,checkedItems)
+    this.setState({
+      [event.target.name]: checkedItems
+    })
+  }
+
+  handleFollowUpQuestion() {
+
+      if (this.state.living_family.siblings) {
+        return(
+
+          <React.Fragment>
+            <select name='siblingsAmount' value={this.state.siblingsAmount}>
+              <option disabled> Siblings </option>
+              {this.CreateRange(0,11)}
+              <option> more </option>
+            </select>
+          </React.Fragment>
+        )
+      } else if(this.state.living_family.parents){
+        return(
+
+          <React.Fragment>
+            <select name='parentsAmount' value={this.state.parentsAmount}>
+              <option disabled> Parents </option>
+              {this.CreateRange(0,3)}
+              <option> more </option>
+            </select>
+          </React.Fragment>
+        )
+      } else if (this.state.living_family.grandparents) {
+        return(
+          <React.Fragment>
+            <select name='grandparentsAmount' value={this.state.grandparentsAmount}>
+              <option disabled> Grandparents </option>
+              {this.CreateRange(0,5)}
+              <option> more </option>
+            </select>
+          </React.Fragment>
+        )
+      } else {
+          return null
+      }
+  }
+
+  CreateRange(min, max){
+    let number = [];
+    for (let i = min; i < max; i++) {
+      number.push(i);
+    }
+    return number.map(num => {
+      return <option value={num}> {num} </option>
+    })
+  }
+
+
+
 
   render() {
     console.log('THIS STATE',this.state);
@@ -99,44 +192,149 @@ class Form extends React.Component {
           <h1>Mission to Mars Registration Form</h1>
           <div>
             <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
-              <br />
-              <br />
+
               <label>What is your name?</label>
               <input type='text' placeholder='name' name='name' value={this.state.name} id='name'></input>
-              <br/>
-              <br/>
+<br/>
+<br/>
               <label htmlFor='birthdate'>What is your date of birth?</label>
               <input
                 type='date' id='birthdate' name='birthdate' value={this.state.birthdate} min='1900-01-01' max= '2019-01-08'
                 />
-              <br/>
-              <br/>
+<br/>
+<br/>
               <label htmlFor='country'>What is your country of origin?</label>
-
               <select name='country' value={this.state.country}>
                 {
                   countries.map(country => {
-                    // console.log(country);
-                    return(
-                      <option key={country.code} value={country.name}>{country.name}</option>
-                    )
+                    return(<option key={country.code} value={country.name}>{country.name}</option>)
                   })
                 }
               </select>
-              <br/>
-              <br/>
+<br/>
+<br/>
               <label htmlFor='diet'>What is your dietary preference?</label>
               <select name='diet' value={this.state.diet}>
                 <option value="omnivore">omnivore</option>
                 <option value="vegetarian">vegetarian</option>
                 <option value="vegan">vegan</option>
               </select>
-              <br/>
-              <br/>
+<br/>
+<br/>
+              <label htmlFor='radio_underwater'>Can you breathe <strong>underwater</strong> longer than 1 minute? </label> {' '}
+<br/>
+              <input type='radio' name='radio_underwater' checked={this.state.radio_underwater === 'yes'} onChange={this.handleRadioChange} value='yes' id='yes' />
+              <label htmlFor='radio'> Yes </label>
+
+              <input type='radio' name='radio_underwater' checked={this.state.radio_underwater === 'no'} onChange={this.handleRadioChange} value='no' id='no' />
+              <label htmlFor='radio'> No </label>
+
+              <input type='radio' name='radio_underwater' checked={this.state.radio_underwater === "i don't know"} onChange={this.handleRadioChange} value="i don't know" id="i don't know"></input>
+              <label htmlFor='radio'> I don't know </label>
+<br/>
+<br/>
+              <label htmlFor='marital_status'>What is your marital status? </label> {' '}
+<br/>
+              <input type='radio' name='marital_status' checked={this.state.marital_status === 'married'} onChange={this.handleRadioChange} value='married' id='married' />
+              <label htmlFor='radio'> Married </label>
+
+              <input type='radio' name='marital_status' checked={this.state.marital_status === 'unmarried'} onChange={this.handleRadioChange} value='unmarried' id='unmarried' />
+              <label htmlFor='radio'> Unmarried </label>
+<br/>
+<br/>
+              <label htmlFor='stress_reaction'>When you are in a stressful or difficult situation, how do you most frequently react? </label> {' '}
+<br/>
+              <input type='radio' name='stress_reaction' checked={this.state.stress_reaction === 'determination'} onChange={this.handleRadioChange} value='determination' id='determination' />
+              <label htmlFor='radio'> Determination: I continue to confront the situation. </label>
+
+              <input type='radio' name='stress_reaction' checked={this.state.stress_reaction === 'defeat'} onChange={this.handleRadioChange} value='defeat' id='defeat' />
+              <label htmlFor='radio'> Defeat: I stop confronting the situation. </label>
+
+              <input type='radio' name='stress_reaction' checked={this.state.stress_reaction === 'anger'} onChange={this.handleRadioChange} value='anger' id='anger' />
+              <label htmlFor='radio'> Anger: I become upset at the situation. </label>
+
+              <input type='radio' name='stress_reaction' checked={this.state.stress_reaction === 'resourcefulness'} onChange={this.handleRadioChange} value='resourcefulness' id='resourcefulness' />
+              <label htmlFor='radio'> Resourcefulness: I seek help to confront the situation. </label>
+<br/>
+<br/>
+              <label htmlFor='claustrophobic'>Are you <strong>claustrophobic</strong> ? </label> {' '}
+<br/>
+              <input type='radio' name='claustrophobic' checked={this.state.claustrophobic === 'yes'} onChange={this.handleRadioChange} value='yes' id='yes' />
+              <label htmlFor='radio'> Yes </label>
+
+              <input type='radio' name='claustrophobic' checked={this.state.claustrophobic === 'no'} onChange={this.handleRadioChange} value='no' id='no' />
+              <label htmlFor='radio'> No </label>
+
+              <input type='radio' name='claustrophobic' checked={this.state.claustrophobic === "i don't know"} onChange={this.handleRadioChange} value="i don't know" id="i don't know"></input>
+              <label htmlFor='radio'> I don't know </label>
+<br/>
+<br/>
+              <label htmlFor='checkbox'>Does your family have a history of (check all that apply):</label>
+
+              <input
+                type='checkbox'
+                name='checkbox_disease'
+                checked={this.state.checkbox_disease.cancer}
+                onChange={this.handleCheckboxChange}
+                id='cancer'>
+              </input>
+              <label htmlFor='checkbox'> Cancer </label>
+              <input
+                type='checkbox'
+                name='checkbox_disease'
+                checked={this.state.checkbox_disease.heart_disease}
+                onChange={this.handleCheckboxChange}
+                id='heart_disease'>
+              </input>
+              <label htmlFor='checkbox'> Heart Disease </label>
+              <input
+                type='checkbox'
+                name='checkbox_disease'
+                checked={this.state.checkbox_disease.diabetes}
+                onChange={this.handleCheckboxChange}
+                id='diabetes'>
+              </input>
+              <label htmlFor='checkbox'> Diabetes </label>
+<br/>
+<br/>
+              <label htmlFor='checkbox'>Do you have any living (check all that apply):</label>
+
+              <input type='checkbox'
+                name='living_family'
+                checked={this.state.living_family.siblings}
+                onChange={this.handleCheckboxChange}
+                id='siblings'>
+              </input>
+              <label htmlFor='checkbox'> Siblings </label>
+
+              {this.handleFollowUpQuestion()}
+
+              <input type='checkbox'
+                name='living_family'
+                checked={this.state.living_family.parents}
+                onChange={this.handleCheckboxChange}
+                id='parents'>
+              </input>
+              <label htmlFor='checkbox'> Parents </label>
+
+            {this.handleFollowUpQuestion()}
+
+
+              <input type='checkbox'
+                name='living_family'
+                checked={this.state.living_family.grandparents}
+                onChange={this.handleCheckboxChange}
+                id='grandparents'>
+              </input>
+              <label htmlFor='checkbox'> Grandparents </label>
+
+            {this.handleFollowUpQuestion()}
+<br/>
+<br/>
               <label htmlFor='essay'>Why do you want to be a Mars explorer?</label>
               <textarea rows='100' cols='20' wrap='soft' overflow='scroll' name='essay' value={this.state.essay} id='essay'></textarea>
-              <br/>
-              <br/>
+<br/>
+<br/>
               <input type='submit'value="Submit"/>
 
             </form>
