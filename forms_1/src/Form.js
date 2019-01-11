@@ -26,11 +26,11 @@ class Form extends React.Component {
       },
       living_family: {
         siblings: false,
-        siblingsAmount: 0,
+        // siblingsAmount: 0,
         parents: false,
-        parentsAmount: 0,
+        // parentsAmount: 0,
         grandparents: false,
-        grandparentsAmount: 0,
+        // grandparentsAmount: 0,
       },
       education: {
         high_school: false,
@@ -109,36 +109,24 @@ class Form extends React.Component {
     })
   }
 
-  handleFollowUpQuestion(event) {
+  handleFollowUpQuestion(id) {
 
-    if (this.state.living_family.siblings) {
+    if (this.state.living_family[id]) {
+      let range;
+
+      if (id === 'siblings') {
+        range = this.CreateRange(0,11)
+      } else if (id === 'parents') {
+        range = this.CreateRange(0,3)
+      } else if (id === 'grandparents') {
+        range = this.CreateRange(0,5)
+      }
       return(
 
         <React.Fragment>
-          <select name='siblingsAmount' value={this.state.siblingsAmount}>
+          <select name={id + 'Amount'} value={this.state[id + 'Amount']}>
             <option disabled> Siblings </option>
-            {this.CreateRange(0,11)}
-            <option> more </option>
-          </select>
-        </React.Fragment>
-      )
-    } else if(this.state.living_family.parents){
-      return(
-
-        <React.Fragment>
-          <select name='parentsAmount' value={this.state.parentsAmount}>
-            <option disabled> Parents </option>
-            {this.CreateRange(0,3)}
-            <option> more </option>
-          </select>
-        </React.Fragment>
-      )
-    } else if (this.state.living_family.grandparents) {
-      return(
-        <React.Fragment>
-          <select name='grandparentsAmount' value={this.state.grandparentsAmount}>
-            <option disabled> Grandparents </option>
-            {this.CreateRange(0,5)}
+              {range}
             <option> more </option>
           </select>
         </React.Fragment>
@@ -331,7 +319,7 @@ class Form extends React.Component {
               </input>
               <label htmlFor='checkbox'> Siblings </label>
 
-              {this.handleFollowUpQuestion()}
+              {this.handleFollowUpQuestion('siblings')}
 
               <input
                 type='checkbox'
@@ -342,7 +330,7 @@ class Form extends React.Component {
               </input>
               <label htmlFor='checkbox'> Parents </label>
 
-            {this.handleFollowUpQuestion()}
+            {this.handleFollowUpQuestion('parents')}
 
 
               <input
@@ -354,7 +342,7 @@ class Form extends React.Component {
               </input>
               <label htmlFor='checkbox'> Grandparents </label>
 
-            {this.handleFollowUpQuestion()}
+            {this.handleFollowUpQuestion('grandparents')}
 <br/>
 <br/>
               <label htmlFor='checkbox'>Check all educational credentials you have received:</label>
