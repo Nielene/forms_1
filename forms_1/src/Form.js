@@ -32,13 +32,13 @@ class Form extends React.Component {
         grandparents: false,
         // grandparentsAmount: 0,
       },
+      education_other: '',
       education: {
         high_school: false,
         associates: false,
         bachelors: false,
         masters: false,
         phd: false,
-        other: '',
       },
       essay: '',
       formSubmitted: false,
@@ -395,11 +395,10 @@ class Form extends React.Component {
               <label htmlFor='checkbox'> Other </label>
               <input
                 type='text'
-                name='education'
-                checked={this.state.education.other}
+                name='education_other'
                 onChange={this.handleChange}
                 id='other'
-                value={this.state.name}
+                value={this.state.education_other}
                 placeholder='Other education'
                 >
               </input>
