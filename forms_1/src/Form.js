@@ -44,6 +44,7 @@ class Form extends React.Component {
       formSubmitted: false,
       formConfirmed: false,
       formEditted: false,
+      formSubmittedAgain: false,
 
 
       //make a ternery: (only one js file.)
@@ -52,16 +53,18 @@ class Form extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleSubmittedAgain = this.handleSubmittedAgain.bind(this)
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleFollowUpQuestion = this.handleFollowUpQuestion.bind(this);
     this.CreateRange = this.CreateRange.bind(this);
+    this.secondPage = this.secondPage.bind(this);
 
 // debugger
   }
 
   handleChange(event) {
-    event.stopPropagation()
+
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -90,8 +93,15 @@ class Form extends React.Component {
     })
   }
 
-  handleRadioChange(event) {
+  handleSubmittedAgain(event){
     event.preventDefault()
+    this.setState({
+      formSubmittedAgain:true
+    })
+  }
+
+  handleRadioChange(event) {
+
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -108,6 +118,7 @@ class Form extends React.Component {
       [event.target.name]: checkedItems
     })
   }
+  // for checkboxes: value: 'on' or 'off' / checked: 'true' or 'false'
 
   handleFollowUpQuestion(id) {
 
@@ -154,12 +165,30 @@ class Form extends React.Component {
     })
   }
 
-  handleSelect() {
 
-  }
 
   handleTextChange(){
 
+  }
+
+  secondPage() {
+    return (
+      <React.Fragment>
+        <form>
+          <h1>Review of your responses</h1>
+          <ul id='userResponses'>
+            <li>Name: {this.state.name}</li>
+            <li>Date of Birth: {this.state.birthdate}</li>
+            <li>Country of Origin: {this.state.country}</li>
+            <li>Dietary preference: {this.state.diet}</li>
+            <li>Why you want to explore Mars: {this.state.essay}</li>
+          </ul>
+
+          <p id='userSure' >Are you sure the information is correct?</p>
+
+        </form>
+      </React.Fragment>
+    )
   }
 
 
@@ -167,37 +196,39 @@ class Form extends React.Component {
     console.log('THIS STATE',this.state);
     // console.log(countries);
     // debugger
-    const {formSubmitted, formConfirmed} = this.state;
+    const {formSubmitted, formConfirmed, formSubmittedAgain} = this.state;
 
     if (formSubmitted && !formConfirmed){
       console.log('submitted');
       return (
-        <React.Fragment>
-          <form>
-            <h1>Review of your responses</h1>
-            <ul id='userResponses'>
-              <li>Name: {this.state.name}</li>
-              <li>Date of Birth: {this.state.birthdate}</li>
-              <li>Country of Origin: {this.state.country}</li>
-              <li>Dietary preference: {this.state.diet}</li>
-              <li>Why you want to explore Mars: {this.state.essay}</li>
-            </ul>
+        <div>
+          <h1>Second Page</h1>
+          {this.secondPage()}
+          <input type='button' onClick={this.handleConfirm} value='Confirm'/>
+          <input type='button' onClick={this.handleEdit} value='Edit'/>
+          <br/>
+        </div>
 
-            <p id='userSure' >Are you sure the information is correct?</p>
-            <input type='button' onClick={this.handleConfirm} value='Confirm'/>
-            <input type='button' onClick={this.handleEdit} value='Edit'/>
-            <br/>
-          </form>
-        </React.Fragment>
-      )
-    } else if (formConfirmed && formSubmitted){
+    )
+
+    } else if (formSubmitted && formConfirmed){
       return (
         <React.Fragment>
-            <p>Thank you, {this.state.name} for your application!</p>
+          <h1>Second Page</h1>
+          {this.secondPage()}
+          <input type='button' onClick={this.handleConfirm} value='Confirm'/>
+          <input type='button' onClick={this.handleEdit} value='Edit'/>
+          <input type='button' onClick={this.handleSubmittedAgain} value='Submit' />
+        </React.Fragment>
+      )
+    } else if (formConfirmed && formSubmitted && formSubmittedAgain) {
+      return (
+        <React.Fragment>
+          <p>Thank you, {this.state.name} for your application!</p>
         </React.Fragment>
       )
     } else {
-      console.log('edited', 'or NOT YET submitted');
+      // console.log('edited', 'or NOT YET submitted');
       return(
         <React.Fragment>
           <h1>Mission to Mars Registration Form</h1>
@@ -210,7 +241,7 @@ class Form extends React.Component {
 <br/>
               <label htmlFor='birthdate'>What is your date of birth?</label>
               <input
-                type='date' id='birthdate' name='birthdate' value={this.state.birthdate} min='1900-01-01' max= '2019-01-08'
+                type='date' id='birthdate' name='birthdate' value={this.state.birthdate} min='1900-01-01' max= '2019-01-31'
                 />
 <br/>
 <br/>
