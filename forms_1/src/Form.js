@@ -45,8 +45,7 @@ class Form extends React.Component {
       formConfirmed: false,
       formEditted: false,
       formSubmittedAgain: false,
-
-
+      message: '',
       //make a ternery: (only one js file.)
     }
     this.handleChange = this.handleChange.bind(this);
@@ -59,12 +58,11 @@ class Form extends React.Component {
     this.handleFollowUpQuestion = this.handleFollowUpQuestion.bind(this);
     this.CreateRange = this.CreateRange.bind(this);
     this.secondPage = this.secondPage.bind(this);
-
+    this.firstPage = this.firstPage.bind(this);
 // debugger
   }
 
   handleChange(event) {
-
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -73,10 +71,29 @@ class Form extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.setState({
-      formSubmitted: true
-    })
+    const {name, birthdate, country, diet, radio_underwater, marital_status, stress_reaction, claustrophobic, checkbox_disease, living_family, education, essay} = this.state;
+
+
+    if (name && birthdate && country && diet && radio_underwater && marital_status && stress_reaction && claustrophobic && checkbox_disease && living_family && education && essay) {
+      this.setState ({
+        formSubmitted: true,
+        message: ''
+      })
+
+      return (
+        <React.Fragment>
+          <input type='submit'value="Submit"/>
+        </React.Fragment>
+      )
+
+    } else {
+      this.setState({
+        message: "Please complete the form."
+      })
+    }
+
   }
+
 
   handleConfirm(event) {
 
@@ -145,14 +162,6 @@ class Form extends React.Component {
     } else {
         return null
     }
-
-    // event.stopPropagation()
-    // let selectedItem = this.state[event.target.name]
-    // selectedItem[event.target.id] = event.target.checked
-    //
-    // this.setState({
-    //   [event.target.name]: selectedItem
-    // })
   }
 
   CreateRange(min, max){
@@ -167,8 +176,12 @@ class Form extends React.Component {
 
 
 
-  handleTextChange(){
+  firstPage(){
+    return (
+      <React.Fragment>
 
+      </React.Fragment>
+    )
   }
 
   secondPage() {
@@ -192,11 +205,12 @@ class Form extends React.Component {
   }
 
 
+
   render() {
     console.log('THIS STATE',this.state);
     // console.log(countries);
     // debugger
-    const {formSubmitted, formConfirmed, formSubmittedAgain} = this.state;
+    const {formSubmitted, formConfirmed, formSubmittedAgain, message} = this.state;
 
     if (formSubmitted && !formConfirmed){
       console.log('submitted');
@@ -363,7 +377,6 @@ class Form extends React.Component {
 
             {this.handleFollowUpQuestion('parents')}
 
-
               <input
                 type='checkbox'
                 name='living_family'
@@ -433,16 +446,15 @@ class Form extends React.Component {
                 placeholder='Other education'
                 >
               </input>
-
-
-
 <br/>
 <br/>
               <label htmlFor='essay'>Why do you want to be a Mars explorer?</label>
               <textarea rows='100' cols='20' wrap='soft' overflow='scroll' name='essay' value={this.state.essay} id='essay'></textarea>
 <br/>
 <br/>
+
               <input type='submit'value="Submit"/>
+              {message}
 
             </form>
           </div>
