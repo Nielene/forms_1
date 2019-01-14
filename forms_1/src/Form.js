@@ -91,7 +91,6 @@ class Form extends React.Component {
         message: "Please complete the form."
       })
     }
-
   }
 
 
@@ -194,6 +193,21 @@ class Form extends React.Component {
             <li>Date of Birth: {this.state.birthdate}</li>
             <li>Country of Origin: {this.state.country}</li>
             <li>Dietary preference: {this.state.diet}</li>
+            <li>Hold breath underwater: {this.state.radio_underwater}</li>
+            <li>Marital status: {this.state.marital_status}</li>
+            <li>Stressful situation: {this.state.stress_reaction}</li>
+            <li>Claustrophobia: {this.state.claustrophobic}</li>
+            <li>Family medical history: {this.state.checkbox_disease.cancer ? "Cancer" : "N/A"}</li>
+            <li>Family medical history: {this.state.checkbox_disease.heart_disease ? "Heart Disease" : "N/A"}</li>
+            <li>Family medical history: {this.state.checkbox_disease.diabetes ? "Diabetes" : "N/A"}</li>
+            <li>Living relatives: {this.state.living_family.siblings ? "Siblings" : 'N/A'}</li>
+            <li>Living relatives: {this.state.living_family.parents ? 'Parents' : 'N/A'}</li>
+            <li>Living relatives: {this.state.living_family.grandparents ? 'Grandparents' : 'N/A'}</li>
+            <li>Educational credentials: {this.state.education.high_school ? 'High School Diploma / G.E.D.' : 'N/A'}</li>
+            <li>Educational credentials: {this.state.education.associates ? 'Associates' : 'N/A'}</li>
+            <li>Educational credentials: {this.state.education.bachelors ? 'Bachelors' : 'N/A'}</li>
+            <li>Educational credentials: {this.state.education.masters ? 'Masters' : 'N/A'}</li>
+            <li>Educational credentials: {this.state.education.phd ? 'PhD' : 'N/A'}</li>
             <li>Why you want to explore Mars: {this.state.essay}</li>
           </ul>
 
