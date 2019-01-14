@@ -94,7 +94,7 @@ class Form extends React.Component {
   }
 
   handleSubmittedAgain(event){
-    event.preventDefault()
+    event.stopPropagation()
     this.setState({
       formSubmittedAgain:true
     })
@@ -211,7 +211,7 @@ class Form extends React.Component {
 
     )
 
-    } else if (formSubmitted && formConfirmed){
+  } else if (formSubmitted && formConfirmed && !formSubmittedAgain){
       return (
         <React.Fragment>
           <h1>Second Page</h1>
